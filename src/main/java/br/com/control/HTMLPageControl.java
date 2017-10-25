@@ -40,7 +40,7 @@ public class HTMLPageControl {
 						if (inputLine.contains("</body>")) {
 							tmp = 0;
 						} else {
-							bodyEmail.append(inputLine);
+							bodyEmail.append((inputLine));
 							tmp = 1;
 							tmpMail++;
 							if (tmpMail == 4 || tmpMail == 3) {
@@ -52,7 +52,7 @@ public class HTMLPageControl {
 				in.close();
 				tmpMail = 0;
 				n++;
-				titleBodyEmail.put(titleEmail, bodyEmail);
+				titleBodyEmail.put(corrigeString(titleEmail), bodyEmail);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -68,7 +68,7 @@ public class HTMLPageControl {
 		LinkedHashMap<String, StringBuilder> keyMap = this.readPage();
 		List<String> keys = new ArrayList<String>();
 		for (Entry<String, StringBuilder> t : keyMap.entrySet()) {
-			keys.add(corrigeString(t.getKey()));
+			keys.add(t.getKey());
 		}
 		return keys;
 	}
