@@ -1,7 +1,10 @@
 package br.com.view;
 
 import java.awt.EventQueue;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -10,9 +13,8 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.JButton;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
+
+import br.com.control.HTMLPageControl;
 
 public class Principal extends JFrame {
 
@@ -21,7 +23,7 @@ public class Principal extends JFrame {
 	 */
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
-	private JTextField textField;
+	private JTextField txIp;
 	private JScrollPane scrollPane;
 	private JTable table;
 	private String[] columnNames = { "Header" };
@@ -50,10 +52,10 @@ public class Principal extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 
-		textField = new JTextField();
-		textField.setBounds(83, 11, 477, 20);
-		contentPane.add(textField);
-		textField.setColumns(10);
+		txIp = new JTextField();
+		txIp.setBounds(83, 11, 477, 20);
+		contentPane.add(txIp);
+		txIp.setColumns(10);
 
 		JLabel lblIpDoPortal = new JLabel("IP do Portal");
 		lblIpDoPortal.setBounds(10, 14, 86, 14);
@@ -71,10 +73,24 @@ public class Principal extends JFrame {
 		btnGo = new JButton("GO");
 		btnGo.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				model.addRow(new Object[] { "Teste" });
+				preencheTable(model,txIp.getText());
 			}
 		});
+		
+		
+		
 		btnGo.setBounds(570, 10, 89, 23);
 		contentPane.add(btnGo);
 	}
+
+	public void preencheTable(DefaultTableModel model, String iPServer) {
+		HTMLPageControl htmlPageControl = new HTMLPageControl(iPServer);
+		for (String tituloEmails : htmlPageControl.retornaTitulosEmails()) {
+			model.addRow(new Object[] {tituloEmails});
+			
+		}
+		
+	}
+
+	
 }
