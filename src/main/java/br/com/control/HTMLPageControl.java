@@ -68,8 +68,12 @@ public class HTMLPageControl {
 		LinkedHashMap<String, StringBuilder> keyMap = this.readPage();
 		List<String> keys = new ArrayList<String>();
 		for (Entry<String, StringBuilder> t : keyMap.entrySet()) {
-			keys.add(StringEscapeUtils.unescapeHtml(t.getKey()));
+			keys.add(corrigeString(t.getKey()));
 		}
 		return keys;
+	}
+
+	private String corrigeString(String string) {
+		return (StringEscapeUtils.unescapeHtml(string)).replaceAll("<.*?>", " ");
 	}
 }
