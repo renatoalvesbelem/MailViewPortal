@@ -11,9 +11,12 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.ListSelectionModel;
+import javax.swing.SwingUtilities;
+import javax.swing.UIManager;
 import javax.swing.border.EmptyBorder;
-import javax.swing.table.DefaultTableModel;
 
+import br.com.component.NonEditableModel;
 import br.com.control.HTMLPageControl;
 
 public class Principal extends JFrame {
@@ -28,7 +31,7 @@ public class Principal extends JFrame {
 	private JTable table;
 	private String[] columnNames = { "Header" };
 	private Object[][] data = {};
-	DefaultTableModel model = new DefaultTableModel(data, columnNames);
+	NonEditableModel model = new NonEditableModel(data, columnNames);
 	private JButton btnGo;
 
 	public static void main(String[] args) {
@@ -37,6 +40,12 @@ public class Principal extends JFrame {
 				try {
 					Principal frame = new Principal();
 					frame.setVisible(true);
+					try {
+						UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
+						SwingUtilities.updateComponentTreeUI(frame);
+					} catch (Exception e1) {
+						e1.printStackTrace();
+					}
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -46,7 +55,7 @@ public class Principal extends JFrame {
 
 	public Principal() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 726, 491);
+		setBounds(100, 100, 934, 491);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -62,35 +71,31 @@ public class Principal extends JFrame {
 		contentPane.add(lblIpDoPortal);
 
 		scrollPane = new JScrollPane();
-		scrollPane.setBounds(32, 68, 646, 373);
+		scrollPane.setBounds(10, 68, 898, 373);
 		contentPane.add(scrollPane);
 
 		table = new JTable(data, columnNames);
-		table.setEnabled(false);
+		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		table.setModel(model);
 		scrollPane.setViewportView(table);
 
 		btnGo = new JButton("GO");
 		btnGo.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				preencheTable(model,txIp.getText());
+				preencheTable(model, txIp.getText());
 			}
 		});
-		
-		
-		
+
 		btnGo.setBounds(570, 10, 89, 23);
 		contentPane.add(btnGo);
 	}
 
-	public void preencheTable(DefaultTableModel model, String iPServer) {
+	public void preencheTable(NonEditableModel model, String iPServer) {
 		HTMLPageControl htmlPageControl = new HTMLPageControl(iPServer);
 		for (String tituloEmails : htmlPageControl.retornaTitulosEmails()) {
-			model.addRow(new Object[] {tituloEmails});
-			
+			model.addRow(new Object[] { tituloEmails });
 		}
-		
+
 	}
 
-	
 }
