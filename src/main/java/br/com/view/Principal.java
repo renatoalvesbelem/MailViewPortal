@@ -35,6 +35,7 @@ public class Principal extends JFrame {
 	private Object[][] data = {};
 	NonEditableModel model = new NonEditableModel(data, columnNames);
 	private JButton btnGo;
+	private JTextArea textAreaBodyEmail; 
 
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
@@ -91,15 +92,14 @@ public class Principal extends JFrame {
 		btnGo.setBounds(570, 10, 89, 23);
 		contentPane.add(btnGo);
 		
-		JTextArea textArea = new JTextArea();
-		textArea.setLineWrap(true);
-		textArea.setBounds(10, 371, 898, 185);
+		textAreaBodyEmail = new JTextArea();
+		textAreaBodyEmail.setLineWrap(true);
+		textAreaBodyEmail.setBounds(10, 371, 898, 185);
 		
 		
-		JScrollPane scrollPane = new JScrollPane(textArea);
-		scrollPane.setBounds(10, 371, 898, 324);
-		
-		contentPane.add(scrollPane);
+		JScrollPane scrollPaneBodyEmail = new JScrollPane(textAreaBodyEmail);
+		scrollPaneBodyEmail.setBounds(10, 371, 898, 324);
+		contentPane.add(scrollPaneBodyEmail);
 	}
 
 	public void preencheTable(NonEditableModel model, String iPServer) {
