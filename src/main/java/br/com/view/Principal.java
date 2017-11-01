@@ -35,7 +35,8 @@ public class Principal extends JFrame {
 	private Object[][] data = {};
 	NonEditableModel model = new NonEditableModel(data, columnNames);
 	private JButton btnGo;
-	private JTextArea textAreaBodyEmail; 
+	private JTextArea textAreaBodyEmail;
+	private HTMLPageControl htmlPageControl;
 
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
@@ -91,22 +92,25 @@ public class Principal extends JFrame {
 
 		btnGo.setBounds(570, 10, 89, 23);
 		contentPane.add(btnGo);
-		
+
 		textAreaBodyEmail = new JTextArea();
 		textAreaBodyEmail.setLineWrap(true);
 		textAreaBodyEmail.setBounds(10, 371, 898, 185);
-		
-		
+
 		JScrollPane scrollPaneBodyEmail = new JScrollPane(textAreaBodyEmail);
 		scrollPaneBodyEmail.setBounds(10, 371, 898, 324);
 		contentPane.add(scrollPaneBodyEmail);
 	}
 
 	public void preencheTable(NonEditableModel model, String iPServer) {
-		HTMLPageControl htmlPageControl = new HTMLPageControl(iPServer);
+		htmlPageControl = new HTMLPageControl(iPServer);
 		for (String tituloEmails : htmlPageControl.retornaTitulosEmails()) {
 			model.addRow(new Object[] { tituloEmails });
 		}
+	}
 
+	public void preencheCorpoEmail(JTextArea textAreaBodyEmail, String key) {
+		textAreaBodyEmail.setText("");
+		textAreaBodyEmail.setText(htmlPageControl.retornaBodyEmail(key).toString());
 	}
 }

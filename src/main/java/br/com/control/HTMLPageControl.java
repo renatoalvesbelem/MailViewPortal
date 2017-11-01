@@ -76,4 +76,8 @@ public class HTMLPageControl {
 	private String corrigeString(String string) {
 		return (StringEscapeUtils.unescapeHtml(string)).replaceAll("<.*?>", " ");
 	}
+
+	public StringBuilder retornaBodyEmail(String key) {
+		return titleBodyEmail.get(key);
+	}
 }
