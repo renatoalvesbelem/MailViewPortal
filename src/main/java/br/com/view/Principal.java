@@ -18,6 +18,8 @@ import javax.swing.border.EmptyBorder;
 
 import br.com.component.NonEditableModel;
 import br.com.control.HTMLPageControl;
+import javax.swing.JTextPane;
+import javax.swing.JTextArea;
 
 public class Principal extends JFrame {
 
@@ -27,7 +29,7 @@ public class Principal extends JFrame {
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	private JTextField txIp;
-	private JScrollPane scrollPane;
+	private JScrollPane scrollPaneEmailTitle;
 	private JTable table;
 	private String[] columnNames = { "Header" };
 	private Object[][] data = {};
@@ -55,7 +57,7 @@ public class Principal extends JFrame {
 
 	public Principal() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 934, 491);
+		setBounds(100, 100, 934, 782);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -70,14 +72,14 @@ public class Principal extends JFrame {
 		lblIpDoPortal.setBounds(10, 14, 86, 14);
 		contentPane.add(lblIpDoPortal);
 
-		scrollPane = new JScrollPane();
-		scrollPane.setBounds(10, 68, 898, 373);
-		contentPane.add(scrollPane);
+		scrollPaneEmailTitle = new JScrollPane();
+		scrollPaneEmailTitle.setBounds(10, 68, 898, 246);
+		contentPane.add(scrollPaneEmailTitle);
 
 		table = new JTable(data, columnNames);
 		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		table.setModel(model);
-		scrollPane.setViewportView(table);
+		scrollPaneEmailTitle.setViewportView(table);
 
 		btnGo = new JButton("GO");
 		btnGo.addActionListener(new ActionListener() {
@@ -88,6 +90,16 @@ public class Principal extends JFrame {
 
 		btnGo.setBounds(570, 10, 89, 23);
 		contentPane.add(btnGo);
+		
+		JTextArea textArea = new JTextArea();
+		textArea.setLineWrap(true);
+		textArea.setBounds(10, 371, 898, 185);
+		
+		
+		JScrollPane scrollPane = new JScrollPane(textArea);
+		scrollPane.setBounds(10, 371, 898, 324);
+		
+		contentPane.add(scrollPane);
 	}
 
 	public void preencheTable(NonEditableModel model, String iPServer) {
@@ -97,5 +109,4 @@ public class Principal extends JFrame {
 		}
 
 	}
-
 }
