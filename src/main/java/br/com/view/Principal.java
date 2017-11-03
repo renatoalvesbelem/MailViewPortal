@@ -36,7 +36,7 @@ public class Principal extends JFrame {
 	private Object[][] data = {};
 	NonEditableModel model = new NonEditableModel(data, columnNames);
 	private JButton btnGo;
-	private JEditorPane  editionPaneBodyEmail;
+	private JEditorPane editionPaneBodyEmail;
 	private HTMLPageControl htmlPageControl;
 
 	public static void main(String[] args) {
@@ -100,12 +100,12 @@ public class Principal extends JFrame {
 		btnGo.setBounds(570, 10, 89, 23);
 		contentPane.add(btnGo);
 
-		editionPaneBodyEmail = new JEditorPane ();
+		editionPaneBodyEmail = new JEditorPane();
 		editionPaneBodyEmail.setEditable(false);
 		editionPaneBodyEmail.setBounds(10, 371, 898, 185);
 
 		JScrollPane scrollPaneBodyEmail = new JScrollPane(editionPaneBodyEmail);
-		scrollPaneBodyEmail.setBounds(10, 371, 898, 324);
+		scrollPaneBodyEmail.setBounds(10, 343, 898, 352);
 		contentPane.add(scrollPaneBodyEmail);
 	}
 

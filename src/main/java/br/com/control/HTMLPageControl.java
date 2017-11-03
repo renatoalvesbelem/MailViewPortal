@@ -31,18 +31,16 @@ public class HTMLPageControl {
 		int tmp = 0;
 		titleBodyEmail = new LinkedHashMap<Integer, EmailModel>();
 		String titleEmail = null;
-		StringBuilder bodyEmail = null;
+		StringBuilder bodyEmail;
 		int tmpMail = 1;
 		try {
 			while (checkStatusHTTP(new URL(urlString + n))) {
-				
 				urlMailHTML = new URL(urlString + n);
 				BufferedReader in = new BufferedReader(new InputStreamReader(urlMailHTML.openStream()));
 				String inputLine;
 				emailModel = new EmailModel();
 				bodyEmail = new StringBuilder();
 				while ((inputLine = in.readLine()) != null) {
-					
 					if (inputLine.contains("<body>") || tmp == 1) {
 						if (inputLine.contains("</body>")) {
 							tmp = 0;
