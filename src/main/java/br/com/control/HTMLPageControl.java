@@ -8,34 +8,41 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map.Entry;
+import java.util.Map;
 
 import org.apache.commons.lang.StringEscapeUtils;
+
+import br.com.model.EmailModel;
 
 public class HTMLPageControl {
 	URL urlMailHTML;
 	private String iPServer;
-	private LinkedHashMap<String, StringBuilder> titleBodyEmail;
+	private Map<Integer, EmailModel> titleBodyEmail;
+	private EmailModel emailModel;
 
 	public HTMLPageControl(String iPServer) {
 		this.iPServer = iPServer;
 		readPage();
 	}
 
-	public LinkedHashMap<String, StringBuilder> readPage() {
+	public Map<Integer, EmailModel> readPage() {
 		int n = 1;
 		String urlString = "http://" + iPServer + "/mailserver/email/body/-";
 		int tmp = 0;
-		titleBodyEmail = new LinkedHashMap<String, StringBuilder>();
+		titleBodyEmail = new LinkedHashMap<Integer, EmailModel>();
 		String titleEmail = null;
-		StringBuilder bodyEmail = new StringBuilder();
+		StringBuilder bodyEmail = null;
 		int tmpMail = 1;
 		try {
 			while (checkStatusHTTP(new URL(urlString + n))) {
+				
 				urlMailHTML = new URL(urlString + n);
 				BufferedReader in = new BufferedReader(new InputStreamReader(urlMailHTML.openStream()));
 				String inputLine;
+				emailModel = new EmailModel();
+				bodyEmail = new StringBuilder();
 				while ((inputLine = in.readLine()) != null) {
+					
 					if (inputLine.contains("<body>") || tmp == 1) {
 						if (inputLine.contains("</body>")) {
 							tmp = 0;
@@ -48,13 +55,18 @@ public class HTMLPageControl {
 							}
 						}
 					}
+
 				}
 				in.close();
 				tmpMail = 0;
-				n++;
-				titleBodyEmail.put(corrigeString(titleEmail), bodyEmail);
+				emailModel.setTitleEmail(corrigeString(titleEmail));
+				emailModel.setBodyEmail(bodyEmail);
+				titleBodyEmail.put(n++, emailModel);
+
 			}
-		} catch (Exception e) {
+		} catch (
+
+		Exception e) {
 			e.printStackTrace();
 		}
 		return titleBodyEmail;
@@ -65,10 +77,10 @@ public class HTMLPageControl {
 	}
 
 	public List<String> retornaTitulosEmails() {
-		LinkedHashMap<String, StringBuilder> keyMap = this.readPage();
+		LinkedHashMap<Integer, EmailModel> keyMap = (LinkedHashMap<Integer, EmailModel>) this.readPage();
 		List<String> keys = new ArrayList<String>();
-		for (Entry<String, StringBuilder> t : keyMap.entrySet()) {
-			keys.add(t.getKey());
+		for (EmailModel t : keyMap.values()) {
+			keys.add(t.getTitleEmail());
 		}
 		return keys;
 	}
@@ -77,7 +89,7 @@ public class HTMLPageControl {
 		return (StringEscapeUtils.unescapeHtml(string)).replaceAll("<.*?>", " ");
 	}
 
-	public StringBuilder retornaBodyEmail(String key) {
-		return titleBodyEmail.get(key);
+	public StringBuilder retornaBodyEmail(Integer key) {
+		return titleBodyEmail.get(key+1).getBodyEmail();
 	}
 }

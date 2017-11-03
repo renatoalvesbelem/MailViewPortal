@@ -3,8 +3,11 @@ package br.com.view;
 import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 import javax.swing.JButton;
+import javax.swing.JEditorPane;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -18,8 +21,6 @@ import javax.swing.border.EmptyBorder;
 
 import br.com.component.NonEditableModel;
 import br.com.control.HTMLPageControl;
-import javax.swing.JTextPane;
-import javax.swing.JTextArea;
 
 public class Principal extends JFrame {
 
@@ -35,7 +36,7 @@ public class Principal extends JFrame {
 	private Object[][] data = {};
 	NonEditableModel model = new NonEditableModel(data, columnNames);
 	private JButton btnGo;
-	private JTextArea textAreaBodyEmail;
+	private JEditorPane  editionPaneBodyEmail;
 	private HTMLPageControl htmlPageControl;
 
 	public static void main(String[] args) {
@@ -79,6 +80,12 @@ public class Principal extends JFrame {
 		contentPane.add(scrollPaneEmailTitle);
 
 		table = new JTable(data, columnNames);
+		table.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				preencheCorpoEmail(editionPaneBodyEmail, table.getSelectedRow());
+			}
+		});
 		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		table.setModel(model);
 		scrollPaneEmailTitle.setViewportView(table);
@@ -93,11 +100,11 @@ public class Principal extends JFrame {
 		btnGo.setBounds(570, 10, 89, 23);
 		contentPane.add(btnGo);
 
-		textAreaBodyEmail = new JTextArea();
-		textAreaBodyEmail.setLineWrap(true);
-		textAreaBodyEmail.setBounds(10, 371, 898, 185);
+		editionPaneBodyEmail = new JEditorPane ();
+		editionPaneBodyEmail.setEditable(false);
+		editionPaneBodyEmail.setBounds(10, 371, 898, 185);
 
-		JScrollPane scrollPaneBodyEmail = new JScrollPane(textAreaBodyEmail);
+		JScrollPane scrollPaneBodyEmail = new JScrollPane(editionPaneBodyEmail);
 		scrollPaneBodyEmail.setBounds(10, 371, 898, 324);
 		contentPane.add(scrollPaneBodyEmail);
 	}
@@ -109,8 +116,10 @@ public class Principal extends JFrame {
 		}
 	}
 
-	public void preencheCorpoEmail(JTextArea textAreaBodyEmail, String key) {
-		textAreaBodyEmail.setText("");
-		textAreaBodyEmail.setText(htmlPageControl.retornaBodyEmail(key).toString());
+	public void preencheCorpoEmail(JEditorPane editionPaneBodyEmail, Integer key) {
+		editionPaneBodyEmail.setText("");
+		editionPaneBodyEmail.setContentType("text/html");
+		editionPaneBodyEmail.setText(htmlPageControl.retornaBodyEmail(key).toString());
+		editionPaneBodyEmail.setCaretPosition(0);
 	}
 }
