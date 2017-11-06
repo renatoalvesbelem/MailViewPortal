@@ -105,11 +105,11 @@ public class Principal extends JFrame {
 		txIp = new JFormattedTextField();
 		txIp.setBounds(92, 11, 467, 20);
 		contentPane.add(txIp);
-
 	}
 
 	public void preencheTable(NonEditableModel model, String iPServer) {
 		htmlPageControl = new HTMLPageControl(iPServer);
+		limpaInformacoesEmail();
 		for (String tituloEmails : htmlPageControl.retornaTitulosEmails()) {
 			model.addRow(new Object[] { tituloEmails.trim() });
 		}
@@ -120,5 +120,12 @@ public class Principal extends JFrame {
 		editionPaneBodyEmail.setContentType("text/html");
 		editionPaneBodyEmail.setText(htmlPageControl.retornaBodyEmail(key).toString());
 		editionPaneBodyEmail.setCaretPosition(0);
+	}
+
+	private void limpaInformacoesEmail() {
+		for (int i = model.getRowCount() - 1; i >= 0; i--) {
+			model.removeRow(i);
+		}
+		editionPaneBodyEmail.setText("");
 	}
 }

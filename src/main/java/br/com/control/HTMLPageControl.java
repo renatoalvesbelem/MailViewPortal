@@ -36,34 +36,38 @@ public class HTMLPageControl {
 		StringBuilder bodyEmail;
 		int tmpMail = 1;
 		try {
-			while (checkStatusHTTP(new URL(urlString + n))) {
-				urlMailHTML = new URL(urlString + n);
-				BufferedReader in = new BufferedReader(new InputStreamReader(urlMailHTML.openStream()));
-				String inputLine;
-				emailModel = new EmailModel();
-				bodyEmail = new StringBuilder();
-				while ((inputLine = in.readLine()) != null) {
-					if (inputLine.contains("<body>") || tmp == 1) {
-						if (inputLine.contains("</body>")) {
-							tmp = 0;
-						} else {
-							bodyEmail.append((inputLine));
-							tmp = 1;
-							tmpMail++;
-							if (tmpMail == 4 || tmpMail == 3) {
-								titleEmail = titleEmail + corrigeString(inputLine);
+			if (n == 1 && checkStatusHTTP(new URL(urlString + n)) == false) {
+				JOptionPane.showMessageDialog(null, "Não existe nenhum email registrado em memória");
+			} else {
+				while (checkStatusHTTP(new URL(urlString + n))) {
+					urlMailHTML = new URL(urlString + n);
+					BufferedReader in = new BufferedReader(new InputStreamReader(urlMailHTML.openStream()));
+					String inputLine;
+					emailModel = new EmailModel();
+					bodyEmail = new StringBuilder();
+					while ((inputLine = in.readLine()) != null) {
+						if (inputLine.contains("<body>") || tmp == 1) {
+							if (inputLine.contains("</body>")) {
+								tmp = 0;
+							} else {
+								bodyEmail.append((inputLine));
+								tmp = 1;
+								tmpMail++;
+								if (tmpMail == 4 || tmpMail == 3) {
+									titleEmail = titleEmail + corrigeString(inputLine);
+								}
 							}
 						}
 					}
-
+					in.close();
+					tmpMail = 0;
+					emailModel.setTitleEmail(corrigeString(titleEmail));
+					titleEmail = "";
+					emailModel.setBodyEmail(bodyEmail);
+					titleBodyEmail.put(n++, emailModel);
 				}
-				in.close();
-				tmpMail = 0;
-				emailModel.setTitleEmail(corrigeString(titleEmail));
-				titleEmail = "";
-				emailModel.setBodyEmail(bodyEmail);
-				titleBodyEmail.put(n++, emailModel);
 			}
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -72,19 +76,14 @@ public class HTMLPageControl {
 
 	private boolean checkStatusHTTP(URL URL) {
 		try {
-			if ((((HttpURLConnection) URL.openConnection()).getResponseCode()) == 200) {
-				return true;
-			} else {
-				JOptionPane.showMessageDialog(null, "Não existe nenhum email registrado");
-				return true;
-			}
-
+			return (((HttpURLConnection) URL.openConnection()).getResponseCode()) == 200;
 		} catch (ConnectException e) {
 			JOptionPane.showMessageDialog(null, "Não foi possível conectar ao servidor: " + URL.getHost());
 			return false;
 		} catch (IOException e) {
 			return false;
 		}
+
 	}
 
 	public List<String> retornaTitulosEmails() {
