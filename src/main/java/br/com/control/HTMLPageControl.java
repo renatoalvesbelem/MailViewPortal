@@ -63,7 +63,6 @@ public class HTMLPageControl {
 				titleEmail = "";
 				emailModel.setBodyEmail(bodyEmail);
 				titleBodyEmail.put(n++, emailModel);
-
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -73,14 +72,19 @@ public class HTMLPageControl {
 
 	private boolean checkStatusHTTP(URL URL) {
 		try {
-			return (((HttpURLConnection) URL.openConnection()).getResponseCode()) == 200;
+			if ((((HttpURLConnection) URL.openConnection()).getResponseCode()) == 200) {
+				return true;
+			} else {
+				JOptionPane.showMessageDialog(null, "Não existe nenhum email registrado");
+				return true;
+			}
+
 		} catch (ConnectException e) {
 			JOptionPane.showMessageDialog(null, "Não foi possível conectar ao servidor: " + URL.getHost());
+			return false;
 		} catch (IOException e) {
-			e.printStackTrace();
+			return false;
 		}
-		return false;
-
 	}
 
 	public List<String> retornaTitulosEmails() {
