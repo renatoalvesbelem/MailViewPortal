@@ -30,7 +30,7 @@ public class HTMLPageControl {
 		String urlString = "http://" + iPServer + "/mailserver/email/body/-";
 		int tmp = 0;
 		titleBodyEmail = new LinkedHashMap<Integer, EmailModel>();
-		String titleEmail = null;
+		String titleEmail = "";
 		StringBuilder bodyEmail;
 		int tmpMail = 1;
 		try {
@@ -49,7 +49,7 @@ public class HTMLPageControl {
 							tmp = 1;
 							tmpMail++;
 							if (tmpMail == 4 || tmpMail == 3) {
-								titleEmail = inputLine + titleEmail;
+								titleEmail = titleEmail + corrigeString(inputLine);
 							}
 						}
 					}
@@ -58,6 +58,7 @@ public class HTMLPageControl {
 				in.close();
 				tmpMail = 0;
 				emailModel.setTitleEmail(corrigeString(titleEmail));
+				titleEmail = "";
 				emailModel.setBodyEmail(bodyEmail);
 				titleBodyEmail.put(n++, emailModel);
 
@@ -88,6 +89,6 @@ public class HTMLPageControl {
 	}
 
 	public StringBuilder retornaBodyEmail(Integer key) {
-		return titleBodyEmail.get(key+1).getBodyEmail();
+		return titleBodyEmail.get(key + 1).getBodyEmail();
 	}
 }

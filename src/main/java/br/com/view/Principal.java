@@ -8,12 +8,12 @@ import java.awt.event.MouseEvent;
 
 import javax.swing.JButton;
 import javax.swing.JEditorPane;
+import javax.swing.JFormattedTextField;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
-import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
@@ -29,7 +29,6 @@ public class Principal extends JFrame {
 	 */
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
-	private JTextField txIp;
 	private JScrollPane scrollPaneEmailTitle;
 	private JTable table;
 	private String[] columnNames = { "Header" };
@@ -38,6 +37,7 @@ public class Principal extends JFrame {
 	private JButton btnGo;
 	private JEditorPane editionPaneBodyEmail;
 	private HTMLPageControl htmlPageControl;
+	private JFormattedTextField txIp;
 
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
@@ -65,11 +65,6 @@ public class Principal extends JFrame {
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
-
-		txIp = new JTextField();
-		txIp.setBounds(83, 11, 477, 20);
-		contentPane.add(txIp);
-		txIp.setColumns(10);
 
 		JLabel lblIpDoPortal = new JLabel("IP do Portal");
 		lblIpDoPortal.setBounds(10, 14, 86, 14);
@@ -107,12 +102,16 @@ public class Principal extends JFrame {
 		JScrollPane scrollPaneBodyEmail = new JScrollPane(editionPaneBodyEmail);
 		scrollPaneBodyEmail.setBounds(10, 343, 898, 352);
 		contentPane.add(scrollPaneBodyEmail);
+		txIp = new JFormattedTextField();
+		txIp.setBounds(92, 11, 467, 20);
+		contentPane.add(txIp);
+
 	}
 
 	public void preencheTable(NonEditableModel model, String iPServer) {
 		htmlPageControl = new HTMLPageControl(iPServer);
 		for (String tituloEmails : htmlPageControl.retornaTitulosEmails()) {
-			model.addRow(new Object[] { tituloEmails });
+			model.addRow(new Object[] { tituloEmails.trim() });
 		}
 	}
 
