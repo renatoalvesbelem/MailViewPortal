@@ -3,12 +3,15 @@ package br.com.control;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.net.ConnectException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+
+import javax.swing.JOptionPane;
 
 import org.apache.commons.lang.StringEscapeUtils;
 
@@ -22,7 +25,6 @@ public class HTMLPageControl {
 
 	public HTMLPageControl(String iPServer) {
 		this.iPServer = iPServer;
-		readPage();
 	}
 
 	public Map<Integer, EmailModel> readPage() {
@@ -63,16 +65,22 @@ public class HTMLPageControl {
 				titleBodyEmail.put(n++, emailModel);
 
 			}
-		} catch (
-
-		Exception e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return titleBodyEmail;
 	}
 
-	private boolean checkStatusHTTP(URL URL) throws IOException {
-		return (((HttpURLConnection) URL.openConnection()).getResponseCode()) == 200;
+	private boolean checkStatusHTTP(URL URL) {
+		try {
+			return (((HttpURLConnection) URL.openConnection()).getResponseCode()) == 200;
+		} catch (ConnectException e) {
+			JOptionPane.showMessageDialog(null, "Não foi possível conectar ao servidor: " + URL.getHost());
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return false;
+
 	}
 
 	public List<String> retornaTitulosEmails() {
