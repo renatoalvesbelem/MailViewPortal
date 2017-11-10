@@ -34,7 +34,7 @@ public class HTMLPageControl {
         titleBodyEmail = new LinkedHashMap<Integer, EmailModel>();
         StringBuilder titleEmail = new StringBuilder();
         StringBuilder bodyEmail;
-        int tmpMail = 1;
+        int tmpMail = 0;
         try {
             if (checkStatusHTTP(new URL(urlString + n))) {
                 while (checkStatusHTTP(new URL(urlString + n))) {
@@ -51,7 +51,7 @@ public class HTMLPageControl {
                                 bodyEmail.append((inputLine));
                                 tmp = 1;
                                 tmpMail++;
-                                if (tmpMail == 4 || tmpMail == 3) {
+                                if (tmpMail == 3 || tmpMail == 4) {
                                     titleEmail.append(corrigeString(inputLine));
                                 }
                             }
