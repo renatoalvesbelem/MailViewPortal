@@ -91,12 +91,10 @@ public class Principal extends JFrame {
         contentPane.add(txIp);
     }
 
-    private void preencheTable(NonEditableModel model, String iPServer) {
+    private void preencheTable(NonEditableModel nonEditableModel, String iPServer) {
         htmlPageControl = new HTMLPageControl(iPServer);
         limpaInformacoesEmail();
-        for (String tituloEmails : htmlPageControl.retornaTitulosEmails()) {
-            model.addRow(new Object[]{tituloEmails.trim()});
-        }
+        adicionaLinhaTable(htmlPageControl, nonEditableModel);
     }
 
     private void preencheCorpoEmail(JEditorPane editionPaneBodyEmail, Integer key) {
@@ -111,5 +109,11 @@ public class Principal extends JFrame {
             model.removeRow(i);
         }
         editionPaneBodyEmail.setText("");
+    }
+
+    private void adicionaLinhaTable(HTMLPageControl htmlPageControl, NonEditableModel nonEditableModel) {
+        for (String tituloEmails : htmlPageControl.retornaTitulosEmails()) {
+            nonEditableModel.addRow(new Object[]{tituloEmails.trim()});
+        }
     }
 }
