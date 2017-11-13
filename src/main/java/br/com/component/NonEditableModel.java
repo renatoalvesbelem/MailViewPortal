@@ -6,7 +6,7 @@ public class NonEditableModel extends DefaultTableModel {
 
 	private static final long serialVersionUID = 1L;
 
-	public NonEditableModel(Object[][] data, String[] columnNames) {
+	public NonEditableModel(Object[][] data, @SuppressWarnings("deprecation") String[] columnNames) {
 		super(data, columnNames);
 	}
 

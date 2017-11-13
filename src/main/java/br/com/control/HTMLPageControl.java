@@ -18,10 +18,11 @@ import org.apache.commons.lang.StringEscapeUtils;
 import br.com.model.EmailModel;
 
 public class HTMLPageControl {
-    private String iPServer;
+    private @SuppressWarnings("deprecation")
+    String iPServer;
     private Map<Integer, EmailModel> titleBodyEmail;
 
-    public HTMLPageControl(String iPServer) {
+    public HTMLPageControl(@SuppressWarnings("deprecation") String iPServer) {
         this.iPServer = iPServer;
     }
 
@@ -29,19 +30,22 @@ public class HTMLPageControl {
         URL urlMailHTML;
         EmailModel emailModel;
         int n = 1;
-        String urlString = "http://" + iPServer + "/mailserver/email/body/-";
+        @SuppressWarnings("deprecation") String urlString = "http://" + iPServer + "/mailserver/email/body/-";
         int tmp = 0;
         titleBodyEmail = new LinkedHashMap<Integer, EmailModel>();
-        StringBuilder titleEmail = new StringBuilder();
-        StringBuilder bodyEmail;
+        @SuppressWarnings("deprecation") StringBuilder titleEmail = new StringBuilder();
+        @SuppressWarnings("deprecation") StringBuilder bodyEmail;
         int tmpMail = 0;
         try {
             if (checkStatusHTTP(new URL(urlString + n))) {
                 while (checkStatusHTTP(new URL(urlString + n))) {
                     urlMailHTML = new URL(urlString + n);
                     BufferedReader in = new BufferedReader(new InputStreamReader(urlMailHTML.openStream()));
+                    @SuppressWarnings("deprecation")
                     String inputLine;
                     emailModel = new EmailModel();
+
+                    //noinspection deprecation
                     bodyEmail = new StringBuilder();
                     while ((inputLine = in.readLine()) != null) {
                         if (inputLine.contains("<body>") || tmp == 1) {
@@ -60,6 +64,7 @@ public class HTMLPageControl {
                     in.close();
                     tmpMail = 0;
                     emailModel.setTitleEmail(corrigeString(titleEmail.toString()));
+                    //noinspection deprecation
                     titleEmail = new StringBuilder();
                     emailModel.setBodyEmail(bodyEmail);
                     titleBodyEmail.put(n++, emailModel);
@@ -86,6 +91,7 @@ public class HTMLPageControl {
 
     }
 
+    @SuppressWarnings("deprecation")
     public List<String> retornaTitulosEmails() {
         LinkedHashMap<Integer, EmailModel> keyMap = (LinkedHashMap<Integer, EmailModel>) this.readPage();
         List<String> keys = new ArrayList<String>();
@@ -95,10 +101,12 @@ public class HTMLPageControl {
         return keys;
     }
 
+    @SuppressWarnings("deprecation")
     private String corrigeString(String string) {
         return (StringEscapeUtils.unescapeHtml(string)).replaceAll("<.*?>", " ");
     }
 
+    @SuppressWarnings("deprecation")
     public StringBuilder retornaBodyEmail(Integer key) {
         return titleBodyEmail.get(key + 1).getBodyEmail();
     }

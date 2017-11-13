@@ -1,23 +1,27 @@
 package br.com.model;
 
 public class EmailModel {
-	private String titleEmail;
-	private StringBuilder bodyEmail;
+    @SuppressWarnings("deprecation")
+    private String titleEmail;
+    @SuppressWarnings("deprecation")
+    private StringBuilder bodyEmail;
 
-	public String getTitleEmail() {
-		return titleEmail;
-	}
+    public @SuppressWarnings("deprecation")
+    String getTitleEmail() {
+        return titleEmail;
+    }
 
-	public void setTitleEmail(String titleEmail) {
-		this.titleEmail = titleEmail;
-	}
+    public void setTitleEmail(@SuppressWarnings("deprecation") String titleEmail) {
+        this.titleEmail = titleEmail;
+    }
 
-	public StringBuilder getBodyEmail() {
-		return bodyEmail;
-	}
+    public @SuppressWarnings("deprecation")
+    StringBuilder getBodyEmail() {
+        return bodyEmail;
+    }
 
-	public void setBodyEmail(StringBuilder bodyEmail) {
-		this.bodyEmail = bodyEmail;
-	}
+    public void setBodyEmail(@SuppressWarnings("deprecation") StringBuilder bodyEmail) {
+        this.bodyEmail = bodyEmail;
+    }
 
 }

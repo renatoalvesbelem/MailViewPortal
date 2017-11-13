@@ -16,6 +16,7 @@ public class Principal extends JFrame {
 
     private static final long serialVersionUID = 1L;
     private JTable table;
+    @SuppressWarnings("deprecation")
     private String[] columnNames = {"Header"};
     private Object[][] data = {};
     private NonEditableModel model = new NonEditableModel(data, columnNames);
@@ -23,7 +24,7 @@ public class Principal extends JFrame {
     private HTMLPageControl htmlPageControl;
     private JFormattedTextField txIp;
 
-    public static void main(String[] args) {
+    public static void main(@SuppressWarnings("deprecation") String[] args) {
         EventQueue.invokeLater(new Runnable() {
             public void run() {
                 try {
@@ -91,7 +92,7 @@ public class Principal extends JFrame {
         contentPane.add(txIp);
     }
 
-    private void preencheTable(NonEditableModel nonEditableModel, String iPServer) {
+    private void preencheTable(NonEditableModel nonEditableModel, @SuppressWarnings("deprecation") String iPServer) {
         htmlPageControl = new HTMLPageControl(iPServer);
         limpaInformacoesEmail();
         adicionaLinhaTable(htmlPageControl, nonEditableModel);
@@ -112,7 +113,7 @@ public class Principal extends JFrame {
     }
 
     private void adicionaLinhaTable(HTMLPageControl htmlPageControl, NonEditableModel nonEditableModel) {
-        for (String tituloEmails : htmlPageControl.retornaTitulosEmails()) {
+        for (@SuppressWarnings("deprecation") String tituloEmails : htmlPageControl.retornaTitulosEmails()) {
             nonEditableModel.addRow(new Object[]{tituloEmails.trim()});
         }
     }
